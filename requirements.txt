@@ -3,3 +3,4 @@ oauth2client
 pyotp
 qrcode
 requests
+fastapi[standard]
