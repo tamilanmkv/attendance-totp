@@ -4,3 +4,4 @@ pyotp
 qrcode
 requests
 fastapi[standard]
+jinja2
