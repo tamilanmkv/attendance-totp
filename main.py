@@ -1,7 +1,7 @@
 from fastapi.templating import Jinja2Templates
 from datetime import datetime
 from fastapi import FastAPI, Request
-from utils import mark_attendance
+from utils import GoogleSheets
 import pyotp
 import qrcode
 import json
@@ -37,7 +37,7 @@ async def new_user(request: Request):
 
 
 @app.get("/entry")
-def verify(request: Request, name, otp):
+def verify(request: Request, name, otp, entry_type="attendance"):
     res = dict()
     users = json.load(open("users.json")) or []
 
@@ -53,7 +53,8 @@ def verify(request: Request, name, otp):
             totp = pyotp.TOTP(user["key"])
 
             if otp == totp.now():
-                mark_attendance(name)
+                gs = GoogleSheets(name, entry_type)
+                gs.mark_attendance()
 
                 res["message"] = f"Attendance marked {name} {current_time}"
                 res["status"] = True
