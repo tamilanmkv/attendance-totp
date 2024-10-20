@@ -4,7 +4,6 @@ import json
 
 users = json.load(open("users.json")) or []
 
-name = input("Enter new user: ")
 
 for user in users:
     if user.get("name") == name:

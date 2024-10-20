@@ -35,6 +35,26 @@
             margin-bottom: 20px;
         }
 
+        .failue-container {
+            text-align: center;
+            padding: 50px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .failue-message {
+            color: #EE4B2B;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .failue-icon {
+            font-size: 50px;
+            color: #EE4B2B;
+            margin-bottom: 20px;
+        }
+
         .btn {
             margin-top: 20px;
             padding: 10px 20px;
@@ -53,9 +73,9 @@
 </head>
 <body>
 
-    <div class="success-container">
-        <div class="success-icon">✔️</div>
-        <div class="success-message">{{message}}</div>
+    <div class={{"success-container" if status else "failue-container"}}>
+        <div class={{"success-icon" if status else "failue-icon"}}>{{"✔️ " if status else "❌ "}}</div>
+        <div class={{"success-message" if status else "failue-message"}}>{{message}}</div>
         <button class="btn" onclick="window.location.href='/'">Go to Home</button>
     </div>
 
