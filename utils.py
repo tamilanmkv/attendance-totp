@@ -35,6 +35,10 @@ class GoogleSheets:
             self.mark_today_leave()
 
     def mark_today_leave(self):
+        for i, record in enumerate(self.records, start=2):
+            if record["Name"] == self.name and record["Date"] == self.current_date:
+                return
+
         new_row = [self.name, self.current_date, "leave", "leave"]
         self.sheet.append_row(new_row)
 

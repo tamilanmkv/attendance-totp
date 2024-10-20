@@ -14,7 +14,9 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get("/")
 async def root(request: Request):
-    return templates.TemplateResponse(request=request, name="index.html")
+    users = json.load(open("users.json"))
+    names = [user.get("name") for user in users]
+    return templates.TemplateResponse(request=request, name="index.html", context={"names": names})
 
 
 @app.get("/new_user")
