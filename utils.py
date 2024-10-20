@@ -19,11 +19,6 @@ class GoogleSheets:
 
     sheet = client.open_by_key("1pYIriif-iveLxET0wDTl1yNkU93cHM4nT45Mn9sYOYU").sheet1
 
-    current_date = datetime.now().strftime("%Y-%m-%d")
-    current_time = datetime.now().strftime("%H:%M:%S")
-
-    records = sheet.get_all_records()
-
     def __init__(self, name, entry_type):
         self.name = name
         self.entry_type = entry_type
@@ -35,19 +30,26 @@ class GoogleSheets:
             self.mark_today_leave()
 
     def mark_today_leave(self):
-        for i, record in enumerate(self.records, start=2):
-            if record["Name"] == self.name and record["Date"] == self.current_date:
+        current_date = datetime.now().strftime("%Y-%m-%d")
+
+        records = self.sheet.get_all_records()
+        for i, record in enumerate(records, start=2):
+            if record["Name"] == self.name and record["Date"] == current_date:
                 return
 
-        new_row = [self.name, self.current_date, "leave", "leave"]
+        new_row = [self.name, current_date, "leave", "leave"]
         self.sheet.append_row(new_row)
 
     def mark_today_attendance(self):
-        for i, record in enumerate(self.records, start=2):
-            if record["Name"] == self.name and record["Date"] == self.current_date:
+        current_date = datetime.now().strftime("%Y-%m-%d")
+        current_time = datetime.now().strftime("%H:%M:%S")
+
+        records = self.sheet.get_all_records()
+        for i, record in enumerate(records, start=2):
+            if record["Name"] == self.name and record["Date"] == current_date:
                 if record["Exit Time"] == "":
-                    self.sheet.update_cell(i, 4, self.current_time)
+                    self.sheet.update_cell(i, 4, current_time)
                 return
 
-        new_row = [self.name, self.current_date, self.current_time, ""]
+        new_row = [self.name, self.current_date, current_time, ""]
         self.sheet.append_row(new_row)
